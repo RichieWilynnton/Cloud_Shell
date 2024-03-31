@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import TerminalBox from "@/components/cmd/TerminalBox";
+import BackgroundImage from "@/components/cmd/BackgroundImage";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,7 +13,7 @@ export default function Home() {
 					<TerminalBox />
 				</div>
 			</div>
-			{/* <BackgroundImage /> */}
+			<BackgroundImage />
     </>
   );
 }
