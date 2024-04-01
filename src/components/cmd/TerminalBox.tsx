@@ -4,32 +4,19 @@ import Header from './Header';
 import EnteredCmd from './EnteredCmd';
 import CmdInput from './CmdInput';
 import Navbar from './Navbar';
+import processCMD from '@/utils/processCmd';
 
 // Main terminal box 
 const TerminalBox = () => {
     const [cmdState, setCmdState] = useState<CmdI[]>([
-        { cmd: 'ls', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'cd ..', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'ls', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'cd ..', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'ls', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'cd ..', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'ls', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'cd ..', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'ls', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'cd ..', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'ls', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'cd ..', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'ls', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'cd ..', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'ls', component: 'CmdTextDisplay', time: new Date() },
-        // { cmd: 'cd ..', component: 'CmdTextDisplay', time: new Date() },
+        
     ]);
 
     const handleSubmit = (cmd: string) => {
         setCmdState((currCmd) => [
             ...currCmd,
-            { cmd, component: 'CmdTextDisplay', time: new Date() }
+            // { cmd, Component: 'CmdTextDisplay', props: null, time: new Date() }
+            {...processCMD(cmd), time: new Date()}
             // render function + date
         ]);
     }
