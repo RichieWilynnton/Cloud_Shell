@@ -2,15 +2,13 @@ import React from 'react'
 
 interface CmdErrorProps {
   cmd: string;
-  args: {
-    message: string;
-  };
+  message: string;
 }
 
-const CmdError = ({ cmd, args }: CmdErrorProps) => {
+const CmdError = ({ cmd, message }: CmdErrorProps) => {
   return (
     <div className='text-xl text-red-600'>
-      {args.message}
+      {message}
     </div>
   )
 }
