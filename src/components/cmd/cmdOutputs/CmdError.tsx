@@ -1,9 +1,16 @@
 import React from 'react'
 
-const CmdError = ( {cmd, args} :  {cmd : string, args: any[]} ) => {
+interface CmdErrorProps {
+  cmd: string;
+  args: {
+    message: string;
+  };
+}
+
+const CmdError = ({ cmd, args }: CmdErrorProps) => {
   return (
     <div className='text-xl text-red-600'>
-        {`Command '${cmd}' not found`}
+      {args.message}
     </div>
   )
 }

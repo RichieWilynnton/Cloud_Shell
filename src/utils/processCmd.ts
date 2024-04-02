@@ -31,7 +31,7 @@ const processCMD = (cmd: string) : CmdI => {
             return {
                 cmd: cmdName,
                 Component: CmdError as React.ComponentType<CmdProps>,
-                props : { cmd: cmdName, args: args },
+                props : { cmd: cmdName, args: {"message" : `Command '${cmd}' not found`} },
                 time: new Date(),
             };
     }
