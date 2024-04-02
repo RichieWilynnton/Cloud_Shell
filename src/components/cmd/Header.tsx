@@ -1,15 +1,17 @@
 import React from 'react'
-import { VT323 } from 'next/font/google';
+import { Pacifico } from 'next/font/google';
 
-const vt323 = VT323({
+const pacifico = Pacifico({
     subsets: ['latin'],
     weight: ['400'],
-    variable: '--font--vt323',
+    variable: '--font--pacifico',
   });
 
 const Header = () => {
   return (
-    <div className={`${vt323.variable} text-2xl`}>Welcome</div>
+    <div className={pacifico.className}>
+      <span className='text-4xl'>Welcome</span>
+    </div>
   )
 }
 
