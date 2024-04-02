@@ -16,7 +16,6 @@ const processCMD = (cmd: string) : CmdI => {
     const args = cmdArr.slice(1);
     const fileSystemTree = useAppContext().fileSystemTree;
 
-    // Maybe have a command checker function
     switch (cmdName) {
         case "ls":
             const response : SystemResponse<String[]> = fileSystemTree.ls();
@@ -35,6 +34,13 @@ const processCMD = (cmd: string) : CmdI => {
         //     return {};
         // case 'help':
         //     return {};
+        // case 'mkdir':
+        //     return {};
+        // case 'rmdir':
+        //     return {};
+        // case 'touch':
+        //     return {};
+        
         default:
             return {
                 cmd: cmdName,

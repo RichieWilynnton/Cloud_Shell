@@ -7,8 +7,8 @@ export class FileSystemTree {
     root: TreeNode;
     currentDirectory : TreeNode;
     constructor() {
-        this.root = new TreeNode("\\", SystemObject.Directory, null);
-        this.root.addChild(new TreeNode("richie\\", SystemObject.Directory, this.root));
+        this.root = new TreeNode("", SystemObject.Directory, null, "/");
+        this.root.addChild(new TreeNode("richie", SystemObject.Directory, this.root, "/richie/"));
         this.currentDirectory = this.root;
     }
 
