@@ -1,5 +1,3 @@
-// Renders the execution of each command
-
 import CmdTextDisplay from "@/components/cmd/CmdTextDisplay";
 import CmdError from "@/components/cmd/cmdOutputs/CmdError";
 import Ls from "@/components/cmd/cmdOutputs/Ls";
@@ -10,6 +8,8 @@ import { SystemResponse } from "@/interfaces/SystemResponse";
 import { getErrorMessage } from "./getErrorMessage";
 import { AppStateI } from "@/interfaces/AppStateI";
 
+// Renders the execution of each command
+// Might need to change structure, because I had to disable react strictmode.
 const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
     const cmdArr = cmd.split(" ");
     const cmdName = cmdArr[0];

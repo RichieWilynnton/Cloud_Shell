@@ -8,7 +8,7 @@ interface CmdProps {
 const Ls = ( {cmd, filesList} : CmdProps) => {
   return (
     <div>
-        <div className='text-xl text-green-600'>
+        <div className='text-xl text-gray-400'>
             {filesList.map((file, index) => (
             <div key={index}>{file}</div>
             ))}

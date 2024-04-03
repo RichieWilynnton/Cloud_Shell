@@ -21,6 +21,11 @@ export class FileSystemTree {
     // For fetching user info from database
     init() : void {}
 
+    // Get current directory
+    getCurrentDirectory() : string {
+        return this.currentDirectory.directory;
+    }
+
     // Return all the children of the current directory
     ls() : SystemResponse<String[]> {
         return { success: true, data: this.currentDirectory.children.map((child) => child.name) };
