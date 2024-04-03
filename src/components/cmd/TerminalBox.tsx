@@ -5,19 +5,18 @@ import EnteredCmd from './EnteredCmd';
 import CmdInput from './CmdInput';
 import Navbar from './Navbar';
 import processCMD from '@/utils/processCmd';
+import { useAppContext } from './context/AppContext';
 
 // Main terminal box 
 const TerminalBox = () => {
-    const [cmdState, setCmdState] = useState<CmdI[]>([
-        
-    ]);
+    const [cmdState, setCmdState] = useState<CmdI[]>([]);
+    const appContext = useAppContext(); // React Rule of Hooks - hooks must be called at the top level of components
+    
 
     const handleSubmit = (cmd: string) => {
         setCmdState((currCmd) => [
             ...currCmd,
-            // { cmd, Component: 'CmdTextDisplay', props: null, time: new Date() }
-            {...processCMD(cmd), time: new Date()}
-            // render function + date
+            {...processCMD(cmd, appContext), time: new Date()}
         ]);
     }
 

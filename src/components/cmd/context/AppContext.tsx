@@ -1,3 +1,4 @@
+import { AppStateI } from '@/interfaces/AppStateI';
 import { FileSystemTree } from '@/utils/FileSystemTree';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
@@ -5,12 +6,9 @@ interface AppProviderProps {
   children: ReactNode;
 }
 
-interface AppState {
-  fileSystemTree: FileSystemTree;
-  // Add other global state or functions here
-}
 
-const AppContext = createContext<AppState | undefined>(undefined);
+
+const AppContext = createContext<AppStateI | undefined>(undefined);
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [fileSystemTree] = useState(new FileSystemTree());
@@ -27,7 +25,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   );
 };
 
-export const useAppContext = (): AppState => {
+export const useAppContext = (): AppStateI => {
   const context = useContext(AppContext);
   if (context === undefined) {
     throw new Error('useApp must be used within an AppProvider');
