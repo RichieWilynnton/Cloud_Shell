@@ -30,6 +30,11 @@ export class FileSystemTree {
 
     // Change current directory
     setCurrentDirectory(dirName : string) : void {
+        if (dirName === "..") {
+            this.currentDirectory = this.currentDirectory.parent!;
+            return;
+        }
+
         const dir = this.currentDirectory.children.find((child) => child.type === SystemObject.Directory && child.name === dirName);
         if (dir !== undefined) {
             this.currentDirectory = dir;
@@ -54,7 +59,7 @@ export class FileSystemTree {
         const dirName = args[0];
         if (dirName === "..") {
             // All directories will have a parent
-            this.currentDirectory = this.currentDirectory.parent!;
+            // this.currentDirectory = this.currentDirectory.parent!;
             return { success: true, data: null };
         }
 

@@ -7,9 +7,9 @@ import { CmdProps } from '@/interfaces/CmdPropsI'
 const EnteredCmd = ({ cmdHistory } : { cmdHistory: CmdI[] }) => {
     return (
         <div>
-                {cmdHistory.map(({ cmd, Component, props, time }, index) => (
+                {cmdHistory.map(({ cmd, Component, props, directory, time }, index) => (
                         <div key={index} className="text-gray-300 text-xl">
-                            <CmdTextDisplay cmd={cmd} date={time} />
+                            <CmdTextDisplay cmd={cmd} date={time} directory={directory}/>
                             <Component {...props as CmdProps} />
                         </div>
                 ))}

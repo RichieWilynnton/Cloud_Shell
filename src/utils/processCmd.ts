@@ -14,6 +14,7 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
     const cmdName = cmdArr[0];
     const args = cmdArr.slice(1);
     const fileSystemTree = appContext.fileSystemTree;
+    const currentDirectory = fileSystemTree.getCurrentDirectory();
 
     switch (cmdName) {
         case "ls": {
@@ -25,6 +26,7 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
                 cmd: cmd,
                 Component: Ls as React.ComponentType<CmdProps>,
                 props: { args: args },
+                directory : currentDirectory,
                 time: new Date(),
             };
         }
@@ -35,6 +37,7 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
                     cmd: cmd,
                     Component: CmdError as React.ComponentType<CmdProps>,
                     props: { args: args, message: `${getErrorMessage(response.error!, cmd, args)}` },
+                    directory : currentDirectory,
                     time: new Date(),
                 };
             }
@@ -42,6 +45,7 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
                 cmd: cmd,
                 Component: Cd as React.ComponentType<CmdProps>,
                 props: { args: args },
+                directory : currentDirectory,
                 time: new Date(),
             };
         }
@@ -61,6 +65,7 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
                 cmd: cmd,
                 Component: CmdError as React.ComponentType<CmdProps>,
                 props: { args: args, message: `Command '${cmd}' not found` },
+                directory : currentDirectory,
                 time: new Date(),
             };
     }

@@ -5,5 +5,6 @@ export interface CmdI {
     cmd : string;
     Component: React.ComponentType<CmdProps>;
     props?: CmdProps;
+    directory: string;
     time : Date;
 }
