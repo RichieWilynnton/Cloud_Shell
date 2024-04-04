@@ -1,7 +1,7 @@
 import CmdTextDisplay from "@/components/cmd/CmdTextDisplay";
 import CmdError from "@/components/cmd/cmdOutputs/CmdError";
 import Ls from "@/components/cmd/cmdOutputs/Ls";
-import NoOutput from "@/components/cmd/cmdOutputs/NoOutput";
+import Cd from "@/components/cmd/cmdOutputs/Cd";
 import { CmdI } from "@/interfaces/CmdI";
 import { CmdProps } from "@/interfaces/CmdPropsI";
 import { SystemResponse } from "@/interfaces/SystemResponse";
@@ -9,7 +9,6 @@ import { getErrorMessage } from "./getErrorMessage";
 import { AppStateI } from "@/interfaces/AppStateI";
 
 // Renders the execution of each command
-// Might need to change structure, because I had to disable react strictmode.
 const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
     const cmdArr = cmd.split(" ");
     const cmdName = cmdArr[0];
@@ -18,14 +17,14 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
 
     switch (cmdName) {
         case "ls": {
-            let response: SystemResponse<String[]> = fileSystemTree.ls();
-            // Can't get errors for ls
+            let response: SystemResponse<null> = fileSystemTree.ls();
 
-            const filesList: String[] = response.data;
+            // Check for arguments
+
             return {
                 cmd: cmd,
                 Component: Ls as React.ComponentType<CmdProps>,
-                props: { cmd: cmdName, filesList: filesList },
+                props: { args: args },
                 time: new Date(),
             };
         }
@@ -35,14 +34,14 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
                 return {
                     cmd: cmd,
                     Component: CmdError as React.ComponentType<CmdProps>,
-                    props: { cmd: cmdName, message: `${getErrorMessage(response.error!, cmd, args)}` },
+                    props: { args: args, message: `${getErrorMessage(response.error!, cmd, args)}` },
                     time: new Date(),
                 };
             }
             return {
                 cmd: cmd,
-                Component: NoOutput as React.ComponentType<CmdProps>,
-                props: { cmd: cmdName },
+                Component: Cd as React.ComponentType<CmdProps>,
+                props: { args: args },
                 time: new Date(),
             };
         }
@@ -61,7 +60,7 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
             return {
                 cmd: cmd,
                 Component: CmdError as React.ComponentType<CmdProps>,
-                props: { cmd: cmdName, message: `Command '${cmd}' not found` },
+                props: { args: args, message: `Command '${cmd}' not found` },
                 time: new Date(),
             };
     }

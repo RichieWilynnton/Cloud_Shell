@@ -1,5 +1,5 @@
 // Format for every command
 export interface CmdProps {
-    cmd: string;
+    args: string[];
     [key: string]: any;
 }

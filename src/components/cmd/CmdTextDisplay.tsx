@@ -21,10 +21,11 @@ const CmdTextDisplay = ({ cmd, date }: { cmd: string, date: Date }) => {
 
   const displayDate = isToday ? date.toLocaleTimeString() : date.toLocaleDateString();
 
+
   return (
     <div className='flex justify-between items-center '>
       <div className='text-gray-300 text-xl'>
-          <span className='text-green-400'>richie@cloud_terminal:</span> <span className='text-blue-500'>{currentDir}</span>$ {cmd}
+          <span className='text-green-400'>richie@cloud_terminal:</span><span className='text-blue-500'>{currentDir}</span>${cmd}
       </div>
       <div className='text-gray-300 text-xl'>{displayDate}</div>
     </div>

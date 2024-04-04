@@ -3,7 +3,9 @@ import { TreeNode } from "./TreeNode";
 import { SystemResponse } from "@/interfaces/SystemResponse";
 import { ErrorType } from "@/enums/ErrorType";
 
-// Tree for storing all directories and files. Includes functions to handle commands.
+// Tree for storing all directories and files. Includes functions to handle commands, but execution is not handled here because some issues regarding StrictMode with double renders
+// Another issue was that cd was updating the current directory before the current directory was rendered in the UI, causing the cd user input to display the wrong directory\
+// Main point : State changes should be handled in the UI components, but the logic and error checking for the commands is in the respective command functions (ls, cd) (maybe including api calls)
 export class FileSystemTree {
     root: TreeNode;
     currentDirectory : TreeNode;
@@ -26,9 +28,22 @@ export class FileSystemTree {
         return this.currentDirectory.directory;
     }
 
+    // Change current directory
+    setCurrentDirectory(dirName : string) : void {
+        const dir = this.currentDirectory.children.find((child) => child.type === SystemObject.Directory && child.name === dirName);
+        if (dir !== undefined) {
+            this.currentDirectory = dir;
+        }
+    }
+
+    // Get children of current directory
+    getCurrentChildren() : TreeNode[] {
+        return this.currentDirectory.children;
+    }
+
     // Return all the children of the current directory
-    ls() : SystemResponse<String[]> {
-        return { success: true, data: this.currentDirectory.children.map((child) => child.name) };
+    ls() : SystemResponse<null> {
+        return { success: true, data: null };
     }
 
     // Change the current directory (Only relative paths for now)
@@ -44,16 +59,12 @@ export class FileSystemTree {
         }
 
         // Find the directory
-        console.log(dirName, this.currentDirectory.children);
         const dirFound = this.currentDirectory.children.find((child) => child.type === SystemObject.Directory && child.name === dirName);
-        console.log(dirFound);
         if (dirFound === undefined)  {
             return { success: false, data: null, error: ErrorType.DirectoryNotFound };
         }
         
-        // Change the current directory
-        this.currentDirectory = dirFound;
-
+        
         return { success: true, data: null };
     }
 
