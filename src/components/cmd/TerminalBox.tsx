@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CmdI } from '../../interfaces/CmdI'
 import Header from './Header';
 import EnteredCmd from './EnteredCmd';
@@ -11,7 +11,6 @@ import { useAppContext } from './context/AppContext';
 const TerminalBox = () => {
     const [cmdState, setCmdState] = useState<CmdI[]>([]);
     const appContext = useAppContext(); // React Rule of Hooks - hooks must be called at the top level of components
-    
 
     const handleSubmit = (cmd: string) => {
         setCmdState((currCmd) => [

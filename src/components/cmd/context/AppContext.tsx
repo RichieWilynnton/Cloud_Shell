@@ -6,15 +6,17 @@ interface AppProviderProps {
   children: ReactNode;
 }
 
-
-
 const AppContext = createContext<AppStateI | undefined>(undefined);
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [fileSystemTree] = useState(new FileSystemTree());
+  const [currentDirectory, setCurrentDirectory] = useState(fileSystemTree.getCurrentDirectory());
   
+  // VERY IMPORTANT: States have to be updated using the functions provided in the context, cannot from the component directly!!
   const contextValue = {
     fileSystemTree : fileSystemTree,
+    currentDirectory: currentDirectory,
+    setCurrentDirectory: setCurrentDirectory,
     // Other states & functions
   };
 

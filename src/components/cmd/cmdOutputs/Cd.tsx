@@ -6,12 +6,12 @@ interface CmdProps {
 }
 
 const Cd = ( { args } : CmdProps ) => {
-    const appContext = useAppContext();
-    const fileSystemTree = appContext.fileSystemTree;
+    const {fileSystemTree, setCurrentDirectory} = useAppContext();
     const dir = args[0];
 
     const execute: () => void = () => {
         fileSystemTree.setCurrentDirectory(dir);
+        setCurrentDirectory(fileSystemTree.getCurrentDirectory());
     };
 
     useEffect(() => {
