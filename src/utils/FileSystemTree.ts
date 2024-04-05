@@ -46,6 +46,11 @@ export class FileSystemTree {
         return this.currentDirectory.children;
     }
 
+    // 
+    createNewDirectory(newDir: string) : void {
+        this.currentDirectory.addChild(new TreeNode(newDir, SystemObject.Directory, this.currentDirectory, this.currentDirectory.directory + newDir + "/"));
+    }
+
     // Return all the children of the current directory
     ls() : SystemResponse<null> {
         return { success: true, data: null };
@@ -59,7 +64,6 @@ export class FileSystemTree {
         const dirName = args[0];
         if (dirName === "..") {
             // All directories will have a parent
-            // this.currentDirectory = this.currentDirectory.parent!;
             return { success: true, data: null };
         }
 
@@ -78,7 +82,14 @@ export class FileSystemTree {
         return { success: true, data: null };
     }
     // Make a new directory
-    // mkdir() : SystemResponse<null> {}
+    mkdir(newDir: string) : SystemResponse<null> {
+        const dirFound = this.currentDirectory.children.find((child) => child.type === SystemObject.Directory && child.name === newDir);
+        // Directory already exists
+        if (dirFound !== undefined) {
+            return { success: false, data: null, error: ErrorType.DirectoryAlreadyExists };
+        }
+        return { success: true, data: null };
+    }
     
 
 }

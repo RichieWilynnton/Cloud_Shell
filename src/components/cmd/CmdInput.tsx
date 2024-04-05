@@ -19,7 +19,7 @@ const CmdInput = ({ onSubmit }: { onSubmit: (cmd: string) => void }) => {
             <form onSubmit={handleSubmit} className="flex">
                 <span className="text-green-400">richie@cloud_terminal:</span>{" "}
                 <span className="text-blue-500">{currentDirectory}</span>
-                <span>$ </span>
+                <span>$</span>
                 <input
                     type="text"
                     ref={inputRef}

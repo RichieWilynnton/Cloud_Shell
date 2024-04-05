@@ -1,4 +1,3 @@
-import CmdTextDisplay from "@/components/cmd/CmdTextDisplay";
 import CmdError from "@/components/cmd/cmdOutputs/CmdError";
 import Ls from "@/components/cmd/cmdOutputs/Ls";
 import Cd from "@/components/cmd/cmdOutputs/Cd";
@@ -7,7 +6,8 @@ import { CmdProps } from "@/interfaces/CmdPropsI";
 import { SystemResponse } from "@/interfaces/SystemResponse";
 import { getErrorMessage } from "./getErrorMessage";
 import { AppStateI } from "@/interfaces/AppStateI";
-import Pwd from "@/components/cmd/cmdOutputs/pwd";
+import Mkdir from "@/components/cmd/cmdOutputs/Mkdir";
+import Pwd from "@/components/cmd/cmdOutputs/Pwd";
 
 // Renders the execution of each command
 const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
@@ -20,7 +20,7 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
     switch (cmdName) {
         case "ls": {
             let response: SystemResponse<null> = fileSystemTree.ls();
-            
+
             // Check for arguments
             return {
                 cmd: cmd,
@@ -36,7 +36,7 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
                 return {
                     cmd: cmd,
                     Component: CmdError as React.ComponentType<CmdProps>,
-                    props: { args: args, message: `${getErrorMessage(response.error!, cmd, args)}` },
+                    props: { args: args, message: `${getErrorMessage(response.error!, cmd, args, currentDirectory)}` },
                     directory : currentDirectory,
                     time: new Date(),
                 };
@@ -60,11 +60,29 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
                 time: new Date(),
             };
         }
+
+        case "mkdir": {
+            let response: SystemResponse<null> = fileSystemTree.pwd();
+            if (!response.success) {
+                return {
+                    cmd: cmd,
+                    Component: CmdError as React.ComponentType<CmdProps>,
+                    props: { args: args, message: `${getErrorMessage(response.error!, cmd, args, currentDirectory)}` },
+                    directory : currentDirectory,
+                    time: new Date(),
+                };
+            }
+            return {
+                cmd: cmd,
+                Component: Mkdir as React.ComponentType<CmdProps>,
+                props: { args: args },
+                directory : currentDirectory,
+                time: new Date(),
+            }
+        }
         // case 'clear':
         //     return {};
         // case 'help':
-        //     return {};
-        // case 'mkdir':
         //     return {};
         // case 'rmdir':
         //     return {};

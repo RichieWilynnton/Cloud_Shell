@@ -16,7 +16,7 @@ const CmdTextDisplay = ({ cmd, date, directory }: { cmd: string, date: Date, dir
   return (
     <div className='flex justify-between items-center '>
       <div className='text-gray-300 text-xl'>
-          <span className='text-green-400'>richie@cloud_terminal:</span><span className='text-blue-500'>{directory}</span>${cmd}
+          <span className='text-green-400'>richie@cloud_terminal:</span><span className='text-blue-500'>{directory}</span>$ {cmd}
       </div>
       <div className='text-gray-300 text-xl'>{displayDate}</div>
     </div>
