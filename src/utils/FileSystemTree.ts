@@ -73,6 +73,10 @@ export class FileSystemTree {
         return { success: true, data: null };
     }
 
+    // show the current directory
+    pwd() : SystemResponse<null> {
+        return { success: true, data: null };
+    }
     // Make a new directory
     // mkdir() : SystemResponse<null> {}
     

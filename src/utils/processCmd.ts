@@ -7,6 +7,7 @@ import { CmdProps } from "@/interfaces/CmdPropsI";
 import { SystemResponse } from "@/interfaces/SystemResponse";
 import { getErrorMessage } from "./getErrorMessage";
 import { AppStateI } from "@/interfaces/AppStateI";
+import Pwd from "@/components/cmd/cmdOutputs/pwd";
 
 // Renders the execution of each command
 const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
@@ -19,9 +20,8 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
     switch (cmdName) {
         case "ls": {
             let response: SystemResponse<null> = fileSystemTree.ls();
-
+            
             // Check for arguments
-
             return {
                 cmd: cmd,
                 Component: Ls as React.ComponentType<CmdProps>,
@@ -45,6 +45,17 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
                 cmd: cmd,
                 Component: Cd as React.ComponentType<CmdProps>,
                 props: { args: args },
+                directory : currentDirectory,
+                time: new Date(),
+            };
+        }
+
+        case "pwd": {
+            let response: SystemResponse<null> = fileSystemTree.pwd();
+            return {
+                cmd: cmd,
+                Component: Pwd as React.ComponentType<CmdProps>,
+                props: { args: args, directory: currentDirectory},
                 directory : currentDirectory,
                 time: new Date(),
             };
