@@ -4,11 +4,11 @@ import { useAppContext } from "../context/AppContext";
 interface CmdProps {
     args: string[];
 }
-const Mkdir = ({ args }: CmdProps) => {
+const Rmdir = ({ args }: CmdProps) => {
     const { fileSystemTree } = useAppContext();
-    const newDir = args[0];
+    const dirName = args[0];
     const execute = () => {
-        fileSystemTree.createNewDirectory(newDir);
+        fileSystemTree.removeDirectory(dirName);
     };
     useEffect(() => {
         execute();
@@ -17,4 +17,4 @@ const Mkdir = ({ args }: CmdProps) => {
     return <div></div>;
 };
 
-export default Mkdir;
+export default Rmdir;

@@ -46,9 +46,14 @@ export class FileSystemTree {
         return this.currentDirectory.children;
     }
 
-    // 
+    // Create new directory
     createNewDirectory(newDir: string) : void {
         this.currentDirectory.addChild(new TreeNode(newDir, SystemObject.Directory, this.currentDirectory, this.currentDirectory.directory + newDir + "/"));
+    }
+
+    // Remove directory
+    removeDirectory(dirName: string) : void {
+        this.currentDirectory.removeChild(dirName);
     }
 
     // Return all the children of the current directory
@@ -82,12 +87,32 @@ export class FileSystemTree {
         return { success: true, data: null };
     }
     // Make a new directory
-    mkdir(newDir: string) : SystemResponse<null> {
+    mkdir(args: string[]) : SystemResponse<null> {
+        // Error checking for invalid arguments
+        if (args.length != 1) return { success: false, data: null, error: ErrorType.InvalidArgument };
+
+        const newDir = args[0];
         const dirFound = this.currentDirectory.children.find((child) => child.type === SystemObject.Directory && child.name === newDir);
         // Directory already exists
         if (dirFound !== undefined) {
             return { success: false, data: null, error: ErrorType.DirectoryAlreadyExists };
         }
+        return { success: true, data: null };
+    }
+
+    // Remove a directory
+    rmdir(args: string[]) : SystemResponse<null> {
+        // Error checking for invalid arguments
+        if (args.length != 1) return { success: false, data: null, error: ErrorType.InvalidArgument };
+
+        const dirName = args[0];
+        const dirFound = this.currentDirectory.children.find((child) => child.type === SystemObject.Directory && child.name === dirName);
+        
+        // Directory does not exist
+        if (dirFound === undefined) {
+            return { success: false, data: null, error: ErrorType.DirectoryNotFound };
+        }
+
         return { success: true, data: null };
     }
     

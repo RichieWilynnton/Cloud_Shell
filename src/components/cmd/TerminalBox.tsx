@@ -18,6 +18,16 @@ const TerminalBox = () => {
 	}, [cmdState]);
 
     const handleSubmit = (cmd: string) => {
+        // Nothing is entered
+        if (cmd === "") return;
+
+        // Clear (Only exception of command implementation)
+        if (cmd === "clear") {
+            setCmdState([]);
+            return;
+        }
+
+        // Handle command
         setCmdState((currCmd) => [
             ...currCmd,
             { ...processCMD(cmd, appContext), time: new Date() },
