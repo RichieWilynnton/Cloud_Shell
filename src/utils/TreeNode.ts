@@ -6,16 +6,19 @@ export class TreeNode {
     type: SystemObject;
     parent: TreeNode | null;
     children: TreeNode[];
+    content: string;
     directory: string;
     constructor(name: string, type: SystemObject, parent: TreeNode | null = null, directory: string) {
         this.name = name;
         this.type = type;
         this.parent = parent;
         this.children = [];
+        this.content = "";
         this.directory = directory;
     }
 
     addChild(child: TreeNode) : boolean {
+        
         this.children.push(child);
         return true;
     }

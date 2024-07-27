@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Pacifico } from "next/font/google";
 import WeatherIcon from "./WeatherIcon";
 
@@ -8,26 +8,18 @@ const pacifico = Pacifico({
     variable: "--font--pacifico",
 });
 
-const Header = () => {
-    const [weather, setWeather] = useState<any>(null);
-    const temp = weather ? weather!.main.temp : "";
-    const iconCode = weather ? weather!.weather[0].icon : "";
+interface WeatherData {
+    main: {
+        temp: string;
+    };
+    weather: {
+        icon: string;
+    }[];
+}
 
-    useEffect(() => {
-        const fetchWeatherData = async (): Promise<void> => {
-            try {
-                const response = await fetch("/api/weather");
-                if (!response.ok) {
-                    throw new Error("Failed to fetch");
-                }
-                const data = await response.json();
-                setWeather(data);
-            } catch (error) {
-                console.error("Error fetching weather data:", error);
-            }
-        };
-        fetchWeatherData();
-    }, []);
+const Header = ({ weather }: { weather: WeatherData }) => { // Receive weather as a prop
+    const temp = weather ? weather.main.temp : "";
+    const iconCode = weather ? weather.weather[0].icon : "";
 
     return (
         <div className={pacifico.className}>

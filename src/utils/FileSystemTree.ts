@@ -5,7 +5,7 @@ import { ErrorType } from "@/enums/ErrorType";
 
 // Tree for storing all directories and files. Includes functions to handle commands, but execution is not handled here because some issues regarding StrictMode with double renders
 // Another issue was that cd was updating the current directory before the current directory was rendered in the UI, causing the cd user input to display the wrong directory\
-// Main point : State changes should be handled in the UI components, but the logic and error checking for the commands is in the respective command functions (ls, cd) (maybe including api calls)
+// Main point : State changes should be handled in the UI components, but the logic and error checking for the commands is in the respective    command functions (ls, cd) (maybe including api calls)
 export class FileSystemTree {
     root: TreeNode;
     currentDirectory : TreeNode;
@@ -54,6 +54,19 @@ export class FileSystemTree {
     // Remove directory
     removeDirectory(dirName: string) : void {
         this.currentDirectory.removeChild(dirName);
+    }
+
+    // Create new file
+    createNewFile(newFile: string) : void {
+        this.currentDirectory.addChild(new TreeNode(newFile, SystemObject.File, this.currentDirectory, this.currentDirectory.directory + newFile));
+    }
+    
+    // Create new file
+    editFile(file: string) : void {
+        const fileNode = this.currentDirectory.children.find((child) => child.type === SystemObject.File && child.name === file);
+        if (fileNode !== undefined) {
+            fileNode.content = "File content";
+        }
     }
 
     // Return all the children of the current directory
@@ -113,6 +126,13 @@ export class FileSystemTree {
             return { success: false, data: null, error: ErrorType.DirectoryNotFound };
         }
 
+        return { success: true, data: null };
+    }
+    
+    // make new file
+    vi(args: string[]) : SystemResponse<null> {
+        // Error checking for invalid arguments
+        if (args.length != 1) return { success: false, data: null, error: ErrorType.InvalidArgument };
         return { success: true, data: null };
     }
     
