@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import processCMD from "@/utils/processCmd";
 import { useAppContext } from "./context/AppContext";
 import CmdError from "./cmdOutputs/CmdError";
+import TextEditor from "./TextEditor";
 
 // Main terminal box
 const TerminalBox = () => {
@@ -55,12 +56,12 @@ const TerminalBox = () => {
 
     return (
         <div>
-            <button className="text-white" onClick={() => {setTextEditingMode(!textEditingMode)}}>fdasfadf</button>
+            <button className="text-white" onClick={() => {setTextEditingMode(!textEditingMode)}}>Change to text editor</button>
             <Navbar />
             <div className="box mx-auto h-55vh max-w-4xl overflow-y-auto rounded-b-md border-x-2 border-b-2 border-slate-800 bg-black bg-opacity-75 text-xl text-gray-300">
                 {textEditingMode ? (
-                    <div>
-                        text-editing
+                    <div className="p-2">
+                        <TextEditor content=""></TextEditor>
                     </div>
                 ) : (
                     <div className="p-2">
