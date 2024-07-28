@@ -9,6 +9,7 @@ import { AppStateI } from "@/interfaces/AppStateI";
 import Mkdir from "@/components/cmd/cmdOutputs/Mkdir";
 import Pwd from "@/components/cmd/cmdOutputs/Pwd";
 import Rmdir from "@/components/cmd/cmdOutputs/Rmdir";
+import Vi from "@/components/cmd/cmdOutputs/Vi";
 
 // Renders the execution of each command
 const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
@@ -103,13 +104,27 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
             }
         }
 
-        // case 'clear':
-        //     return {};
+        case "vi": {
+            let response: SystemResponse<string> = fileSystemTree.vi(args);
+            if (!response.success) {
+                return {
+                    cmd: cmd,
+                    Component: CmdError as React.ComponentType<CmdProps>,
+                    props: { args: args, message: `${getErrorMessage(response.error!, cmdName, args, currentDirectory)}` },
+                    directory : currentDirectory,
+                    time: time,
+                };
+            }
+            return {
+                cmd: cmd,
+                Component: Vi as React.ComponentType<CmdProps>,
+                props: { args: args, content : response.data},
+                directory : currentDirectory,
+                time: time,
+            }
+        }
+
         // case 'help':
-        //     return {};
-        // case 'rmdir':
-        //     return {};
-        // case 'touch':
         //     return {};
 
         default:

@@ -3,12 +3,14 @@ import { useAppContext } from "../context/AppContext";
 
 interface CmdProps {
     args: string[];
+    content: string;
 }
-const Vi = ({ args }: CmdProps) => {
+const Vi = ({ args, content }: CmdProps) => {
     const { fileSystemTree } = useAppContext();
     const fileName = args[0];
     const execute = () => {
-        fileSystemTree.removeDirectory(fileName);
+        fileSystemTree.editFile(fileName, content);
+        
     };
     useEffect(() => {
         execute();

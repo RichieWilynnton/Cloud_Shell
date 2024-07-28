@@ -8,18 +8,21 @@ import processCMD from "@/utils/processCmd";
 import { useAppContext } from "./context/AppContext";
 import CmdError from "./cmdOutputs/CmdError";
 import TextEditor from "./TextEditor";
+import Vi from "./cmdOutputs/Vi";
 
 // Main terminal box
 const TerminalBox = () => {
     const [cmdState, setCmdState] = useState<CmdI[]>([]);
+    const [tempCmd, setTempCmd] = useState<CmdI | null>(null);
     const [textEditingMode, setTextEditingMode] = useState<boolean>(false);
+    const [textEditingContent, setTextEditingContent] = useState<string>("");
     const [weather, setWeather] = useState<any>(null); // Move weather state here
     const appContext = useAppContext(); // React Rule of Hooks - hooks must be called at the top level of components, cannot functions
     const dummyRef = useRef() as React.MutableRefObject<HTMLDivElement>; // For scrolling to bottom
 
     useEffect(() => {
-        dummyRef.current.scrollIntoView({ behavior: "auto" });
-    }, [cmdState]);
+        if (dummyRef.current) dummyRef.current.scrollIntoView({ behavior: "auto" });
+    }, [cmdState, textEditingMode]);
 
     useEffect(() => {
         const fetchWeatherData = async (): Promise<void> => {
@@ -46,22 +49,35 @@ const TerminalBox = () => {
             return;
         }
 
-        const cmdInfo = { ...processCMD(cmd, appContext), time: new Date() };
-        // Handle command
-        setCmdState((currCmd) => [...currCmd, cmdInfo]);
+        const cmdInfo = { ...processCMD(cmd, appContext) };
 
-        if (cmdInfo.Component == CmdError) {
+        // Content needs to be updated later
+        if (cmdInfo.Component == Vi) {
+            setTextEditingMode(true);
+            setTempCmd(cmdInfo);
+            setTextEditingContent(cmdInfo.props?.content!);
+        }
+        else {
+            setCmdState((currCmd) => [...currCmd, cmdInfo]);
         }
     };
 
+    const onTextEditorExit = (updatedContent : string) => {
+        setTextEditingMode(false);
+        if (tempCmd) {
+            const updatedCmd : CmdI = { ...tempCmd, props: { args : tempCmd.props?.args!, content: updatedContent } };
+            setCmdState((currCmd) => [...currCmd, updatedCmd]);
+            setTempCmd(null);
+        }
+    }
+
     return (
         <div>
-            <button className="text-white" onClick={() => {setTextEditingMode(!textEditingMode)}}>Change to text editor</button>
             <Navbar />
             <div className="box mx-auto h-55vh max-w-4xl overflow-y-auto rounded-b-md border-x-2 border-b-2 border-slate-800 bg-black bg-opacity-75 text-xl text-gray-300">
                 {textEditingMode ? (
                     <div className="p-2">
-                        <TextEditor content=""></TextEditor>
+                        <TextEditor content={textEditingContent} handleTextEditorExit={onTextEditorExit}></TextEditor>
                     </div>
                 ) : (
                     <div className="p-2">

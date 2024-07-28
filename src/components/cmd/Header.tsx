@@ -20,7 +20,6 @@ interface WeatherData {
 const Header = ({ weather }: { weather: WeatherData }) => { // Receive weather as a prop
     const temp = weather ? weather.main.temp : "";
     const iconCode = weather ? weather.weather[0].icon : "";
-
     return (
         <div className={pacifico.className}>
             <div className="flex justify-between">

@@ -4,8 +4,8 @@ import { SystemResponse } from "@/interfaces/SystemResponse";
 import { ErrorType } from "@/enums/ErrorType";
 
 // Tree for storing all directories and files. Includes functions to handle commands, but execution is not handled here because some issues regarding StrictMode with double renders
-// Another issue was that cd was updating the current directory before the current directory was rendered in the UI, causing the cd user input to display the wrong directory\
-// Main point : State changes should be handled in the UI components, but the logic and error checking for the commands is in the respective    command functions (ls, cd) (maybe including api calls)
+// Another issue was that cd was updating the current directory before the current directory was rendered in the UI, causing the cd user input to display the wrong directory
+// Main point : State changes should be handled in the UI components, but the logic and error checking for the commands is in the respective command functions (ls, cd) (maybe including api calls)
 export class FileSystemTree {
     root: TreeNode;
     currentDirectory : TreeNode;
@@ -61,13 +61,14 @@ export class FileSystemTree {
         this.currentDirectory.addChild(new TreeNode(newFile, SystemObject.File, this.currentDirectory, this.currentDirectory.directory + newFile));
     }
     
-    // Create new file
-    editFile(file: string) : void {
+    // edit existing file
+    editFile(file: string, content: string) : void {
         const fileNode = this.currentDirectory.children.find((child) => child.type === SystemObject.File && child.name === file);
         if (fileNode !== undefined) {
-            fileNode.content = "File content";
+            fileNode.content = content;
         }
-    }
+        console.log(this.currentDirectory.children[1]);
+    }   
 
     // Return all the children of the current directory
     ls() : SystemResponse<null> {
@@ -94,6 +95,8 @@ export class FileSystemTree {
         
         return { success: true, data: null };
     }
+
+    // Functions below tell whether command is valid or not
 
     // show the current directory
     pwd() : SystemResponse<null> {
@@ -129,11 +132,24 @@ export class FileSystemTree {
         return { success: true, data: null };
     }
     
-    // make new file
-    vi(args: string[]) : SystemResponse<null> {
-        // Error checking for invalid arguments
-        if (args.length != 1) return { success: false, data: null, error: ErrorType.InvalidArgument };
-        return { success: true, data: null };
+    // edit file
+    vi(args: string[]) : SystemResponse<string> {
+        // can only make one file at a time
+        if (args.length != 1) return { success: false, data: "", error: ErrorType.InvalidArgument };
+
+        const file = args[0];
+        const fileNode = this.currentDirectory.children.find((child) => child.type === SystemObject.File && child.name === file);
+        var content = "";
+
+        if (fileNode === undefined) {
+            this.createNewFile(file);
+        }
+        else {
+            console.log(fileNode)
+            content = fileNode.content;
+        }
+
+        return { success: true, data: content };
     }
     
 
