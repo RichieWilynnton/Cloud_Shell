@@ -18,8 +18,9 @@ const Ls = ({ args }: CmdProps) => {
     const [filesList, setFilesList] = useState<TreeNode[]>([]);
 
     useEffect(() => {
-        console.log(fileSystemTree.getCurrentChildren().map((file) => file.name));
-        setFilesList(fileSystemTree.getCurrentChildren());
+        console.log("triggered")
+        const currentChildren = fileSystemTree.getCurrentChildren();
+        setFilesList([...currentChildren]);
     }, []);
 
     return (

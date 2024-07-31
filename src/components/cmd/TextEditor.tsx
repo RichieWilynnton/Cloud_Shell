@@ -10,7 +10,7 @@ const TextEditor = ({ content = "", handleTextEditorExit } : {content : string, 
 
     useEffect(() => {
         if (editorRef.current) {
-            editorRef.current.innerHTML = content;
+            editorRef.current.innerHTML = content;  
         }
     }, [content]);
 

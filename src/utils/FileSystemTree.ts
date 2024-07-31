@@ -67,7 +67,6 @@ export class FileSystemTree {
         if (fileNode !== undefined) {
             fileNode.content = content;
         }
-        console.log(this.currentDirectory.children[1]);
     }   
 
     // Return all the children of the current directory
@@ -113,6 +112,7 @@ export class FileSystemTree {
         if (dirFound !== undefined) {
             return { success: false, data: null, error: ErrorType.DirectoryAlreadyExists };
         }
+        this.createNewDirectory(newDir);
         return { success: true, data: null };
     }
 
@@ -142,15 +142,17 @@ export class FileSystemTree {
         var content = "";
 
         if (fileNode === undefined) {
-            this.createNewFile(file);
+            this.createNewDirectory(file);
         }
         else {
-            console.log(fileNode)
             content = fileNode.content;
         }
 
         return { success: true, data: content };
     }
     
+    snake(args: string[]) : SystemResponse<null> {
+        return { success: true, data: null };
+    }
 
 }

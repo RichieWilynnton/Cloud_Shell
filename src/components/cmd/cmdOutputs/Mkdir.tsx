@@ -8,7 +8,7 @@ const Mkdir = ({ args }: CmdProps) => {
     const { fileSystemTree } = useAppContext();
     const newDir = args[0];
     const execute = () => {
-        fileSystemTree.createNewDirectory(newDir);
+        // fileSystemTree.createNewDirectory(newDir);
     };
     useEffect(() => {
         execute();

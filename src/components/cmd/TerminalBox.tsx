@@ -66,7 +66,7 @@ const TerminalBox = () => {
         setTextEditingMode(false);
         if (tempCmd) {
             const updatedCmd : CmdI = { ...tempCmd, props: { args : tempCmd.props?.args!, content: updatedContent } };
-            setCmdState((currCmd) => [...currCmd, updatedCmd]);
+            setCmdState((currCmd) => [...currCmd]);
             setTempCmd(null);
         }
     }

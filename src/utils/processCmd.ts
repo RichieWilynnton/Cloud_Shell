@@ -10,6 +10,7 @@ import Mkdir from "@/components/cmd/cmdOutputs/Mkdir";
 import Pwd from "@/components/cmd/cmdOutputs/Pwd";
 import Rmdir from "@/components/cmd/cmdOutputs/Rmdir";
 import Vi from "@/components/cmd/cmdOutputs/Vi";
+import Snake from "@/components/cmd/cmdOutputs/Snake";
 
 // Renders the execution of each command
 const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
@@ -119,6 +120,26 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
                 cmd: cmd,
                 Component: Vi as React.ComponentType<CmdProps>,
                 props: { args: args, content : response.data},
+                directory : currentDirectory,
+                time: time,
+            }
+        }
+
+        case "snake": {
+            let response: SystemResponse<null> = fileSystemTree.snake(args);
+            if (!response.success) {
+                return {
+                    cmd: cmd,
+                    Component: CmdError as React.ComponentType<CmdProps>,
+                    props: { args: args, message: `${getErrorMessage(response.error!, cmdName, args, currentDirectory)}` },
+                    directory : currentDirectory,
+                    time: time,
+                };
+            }
+            return {
+                cmd: cmd,
+                Component: Snake as React.ComponentType<CmdProps>,
+                props: { args: args},
                 directory : currentDirectory,
                 time: time,
             }
