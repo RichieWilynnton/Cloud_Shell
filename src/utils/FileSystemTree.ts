@@ -2,6 +2,8 @@ import { SystemObject } from "@/enums/SystemObject";
 import { TreeNode } from "./TreeNode";
 import { SystemResponse } from "@/interfaces/SystemResponse";
 import { ErrorType } from "@/enums/ErrorType";
+import { dir } from "console";
+import { dirname } from "path";
 
 // Tree for storing all directories and files. Includes functions to handle commands, but execution is not handled here because some issues regarding StrictMode with double renders
 // Another issue was that cd was updating the current directory before the current directory was rendered in the UI, causing the cd user input to display the wrong directory
@@ -32,6 +34,8 @@ export class FileSystemTree {
     setCurrentDirectory(dirName : string) : void {
         if (dirName === "..") {
             this.currentDirectory = this.currentDirectory.parent!;
+        console.log("NOW" + this.currentDirectory.name);
+
             return;
         }
 
@@ -39,6 +43,8 @@ export class FileSystemTree {
         if (dir !== undefined) {
             this.currentDirectory = dir;
         }
+
+        console.log("NOW" + this.currentDirectory.name);
     }
 
     // Get children of current directory
@@ -80,17 +86,13 @@ export class FileSystemTree {
         if (args.length != 1) return { success: false, data: null, error: ErrorType.InvalidArgument };
 
         const dirName = args[0];
-        if (dirName === "..") {
-            // All directories will have a parent
-            return { success: true, data: null };
-        }
 
         // Find the directory
         const dirFound = this.currentDirectory.children.find((child) => child.type === SystemObject.Directory && child.name === dirName);
-        if (dirFound === undefined)  {
+        if (dirFound === undefined && dirName !== "..") {
             return { success: false, data: null, error: ErrorType.DirectoryNotFound };
         }
-        
+        this.setCurrentDirectory(dirName);
         
         return { success: true, data: null };
     }
@@ -98,8 +100,8 @@ export class FileSystemTree {
     // Functions below tell whether command is valid or not
 
     // show the current directory
-    pwd() : SystemResponse<null> {
-        return { success: true, data: null };
+    pwd() : SystemResponse<string> {
+        return { success: true, data: this.currentDirectory.name };
     }
     // Make a new directory
     mkdir(args: string[]) : SystemResponse<null> {
@@ -128,7 +130,7 @@ export class FileSystemTree {
         if (dirFound === undefined) {
             return { success: false, data: null, error: ErrorType.DirectoryNotFound };
         }
-
+        this.removeDirectory(dirName);
         return { success: true, data: null };
     }
     

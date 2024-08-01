@@ -18,6 +18,7 @@ const TerminalBox = () => {
     const [textEditingContent, setTextEditingContent] = useState<string>("");
     const [weather, setWeather] = useState<any>(null); // Move weather state here
     const appContext = useAppContext(); // React Rule of Hooks - hooks must be called at the top level of components, cannot functions
+    const currentDirectory = appContext.fileSystemTree.getCurrentDirectory();
     const dummyRef = useRef() as React.MutableRefObject<HTMLDivElement>; // For scrolling to bottom
 
     useEffect(() => {
@@ -83,7 +84,7 @@ const TerminalBox = () => {
                     <div className="p-2">
                         <Header weather={weather} /> 
                         <EnteredCmd cmdHistory={cmdState} />
-                        <CmdInput onSubmit={handleSubmit} />
+                        <CmdInput onSubmit={handleSubmit} currentDir={currentDirectory}/>
                         <div ref={dummyRef}></div>
                     </div>
                 )}

@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useAppContext } from "./context/AppContext";
 
 // Input for the command line
-const CmdInput = ({ onSubmit }: { onSubmit: (cmd: string) => void }) => {
+
+const CmdInput = ({ onSubmit, currentDir }: { onSubmit: (cmd: string) => void, currentDir: string }) => {
     const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
-    const {currentDirectory} = useAppContext();
-    
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
@@ -18,7 +16,7 @@ const CmdInput = ({ onSubmit }: { onSubmit: (cmd: string) => void }) => {
         <div>
             <form onSubmit={handleSubmit} className="flex">
                 <span className="text-green-400">richie@cloud_terminal:</span>{" "}
-                <span className="text-blue-500">{currentDirectory}</span>
+                <span className="text-blue-500">{currentDir}</span>
                 <span>$</span>
                 <input
                     type="text"

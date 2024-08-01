@@ -56,7 +56,7 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
         }
 
         case "pwd": {
-            let response: SystemResponse<null> = fileSystemTree.pwd();
+            let response: SystemResponse<string> = fileSystemTree.pwd();
             return {
                 cmd: cmd,
                 Component: Pwd as React.ComponentType<CmdProps>,

@@ -8,7 +8,7 @@ const Rmdir = ({ args }: CmdProps) => {
     const { fileSystemTree } = useAppContext();
     const dirName = args[0];
     const execute = () => {
-        fileSystemTree.removeDirectory(dirName);
+        // fileSystemTree.removeDirectory(dirName);
     };
     useEffect(() => {
         execute();

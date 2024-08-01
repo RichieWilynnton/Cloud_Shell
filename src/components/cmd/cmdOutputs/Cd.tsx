@@ -10,8 +10,8 @@ const Cd = ( { args } : CmdProps ) => {
     const dir = args[0];
 
     const execute: () => void = () => {
-        fileSystemTree.setCurrentDirectory(dir);
-        setCurrentDirectory(fileSystemTree.getCurrentDirectory());
+        // fileSystemTree.setCurrentDirectory(dir);
+        // setCurrentDirectory(fileSystemTree.getCurrentDirectory());
     };
 
     useEffect(() => {
