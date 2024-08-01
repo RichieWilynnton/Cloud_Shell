@@ -34,8 +34,6 @@ export class FileSystemTree {
     setCurrentDirectory(dirName : string) : void {
         if (dirName === "..") {
             this.currentDirectory = this.currentDirectory.parent!;
-        console.log("NOW" + this.currentDirectory.name);
-
             return;
         }
 
@@ -144,7 +142,7 @@ export class FileSystemTree {
         var content = "";
 
         if (fileNode === undefined) {
-            this.createNewDirectory(file);
+            this.createNewFile(file);
         }
         else {
             content = fileNode.content;
@@ -153,8 +151,21 @@ export class FileSystemTree {
         return { success: true, data: content };
     }
     
-    snake(args: string[]) : SystemResponse<null> {
-        return { success: true, data: null };
+    snake(args: string[]) : SystemResponse<string> {
+        if (args.length != 1) return { success: false, data: "", error: ErrorType.InvalidArgument };
+
+        const file = args[0];
+        const fileNode = this.currentDirectory.children.find((child) => child.type === SystemObject.File && child.name === file);
+        var content = "";
+
+        if (fileNode === undefined) {
+            return { success: false, data: "", error: ErrorType.FileNotFound };
+        }
+        else {
+            content = fileNode.content;
+        }
+
+        return { success: true, data: content};
     }
 
 }

@@ -3,31 +3,33 @@ import { useAppContext } from "../context/AppContext";
 
 interface CmdProps {
     args: string[];
+    code: string;
 }
-const Snake = ({ args }: CmdProps) => {
+const Snake = ({ args, code }: CmdProps) => {
     const { fileSystemTree } = useAppContext();
     const dirName = args[0];
-    const [data, setData] = useState<string>("");
+
+    const [data, setData] = useState<string>("Fetching data...");
     useEffect(() => {}, []);
     const fetchCompilerOutput = async (): Promise<void> => {
         try {
             const res = await fetch("http://127.0.0.1:5000/", {
-                method: "GET",
-                // headers: {
-                //     "Content-Type": "application/json",
-                // },
-                // body: JSON.stringify({
-                //     name: "John Doe",
-                //     email: "john@example.com",
-                // }),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    code: code
+                }),
             });
             if (!res.ok) {
-                throw new Error("Network response was not ok");
+                setData("Network response was not ok");
             }
             const result = await res.json();
             setData(result.output);
         } catch (error) {
-            console.error("Error fetching weather data:", error);
+            setData("Network response was not ok");
+            console.error("Network response was not ok", error);
         }
     };
 
@@ -38,7 +40,7 @@ const Snake = ({ args }: CmdProps) => {
         execute();
     }, []);
 
-    return <div>{data === "" ? "Fetching data..." : <pre>{data}</pre>}</div>;
+    return <div><pre>{data}</pre></div>;
 };
 
 export default Snake;

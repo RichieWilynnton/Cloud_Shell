@@ -127,7 +127,7 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
         }
 
         case "snake": {
-            let response: SystemResponse<null> = fileSystemTree.snake(args);
+            let response: SystemResponse<string> = fileSystemTree.snake(args);
             if (!response.success) {
                 return {
                     cmd: cmd,
@@ -140,7 +140,7 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
             return {
                 cmd: cmd,
                 Component: Snake as React.ComponentType<CmdProps>,
-                props: { args: args},
+                props: { args: args, code : response.data},
                 directory : currentDirectory,
                 time: time,
             }

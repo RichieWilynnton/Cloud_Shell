@@ -3,4 +3,5 @@ export enum ErrorType {
     InvalidArgument = 'invalid_argument',
     DirectoryNotFound = 'directory_not_found',
     DirectoryAlreadyExists = 'directory_already_exists',
+    FileNotFound = 'file_not_found',
 }
