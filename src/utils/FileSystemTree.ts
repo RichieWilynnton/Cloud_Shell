@@ -70,8 +70,8 @@ export class FileSystemTree {
     }   
 
     // Return all the children of the current directory
-    ls() : SystemResponse<null> {
-        return { success: true, data: null };
+    ls() : SystemResponse<TreeNode[]> {
+        return { success: true, data: [...this.currentDirectory.children] };
     }
 
     // Change the current directory (Only relative paths for now)

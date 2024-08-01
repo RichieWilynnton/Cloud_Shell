@@ -11,6 +11,7 @@ import Pwd from "@/components/cmd/cmdOutputs/Pwd";
 import Rmdir from "@/components/cmd/cmdOutputs/Rmdir";
 import Vi from "@/components/cmd/cmdOutputs/Vi";
 import Snake from "@/components/cmd/cmdOutputs/Snake";
+import { TreeNode } from "./TreeNode";
 
 // Renders the execution of each command
 const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
@@ -23,13 +24,13 @@ const processCMD = (cmd: string, appContext : AppStateI): CmdI => {
 
     switch (cmdName) {
         case "ls": {
-            let response: SystemResponse<null> = fileSystemTree.ls();
+            let response: SystemResponse<TreeNode[]> = fileSystemTree.ls();
 
             // Check for arguments
             return {
                 cmd: cmd,
                 Component: Ls as React.ComponentType<CmdProps>,
-                props: { args: args },
+                props: { args: args, objects: response.data },
                 directory : currentDirectory,
                 time: time,
             };

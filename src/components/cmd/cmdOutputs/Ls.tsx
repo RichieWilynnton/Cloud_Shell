@@ -5,28 +5,19 @@ import { TreeNode } from "@/utils/TreeNode";
 
 interface CmdProps {
     args: string[];
+    objects: TreeNode[];
 }
 
-const Ls = ({ args }: CmdProps) => {
-    const appContext = useAppContext();
-    const fileSystemTree = appContext.fileSystemTree;
+const Ls = ({ args, objects }: CmdProps) => {
     const fileThemes = {
         [SystemObject.File]: "🐍",
         [SystemObject.Directory]: "📁",
     }
-    
-    const [filesList, setFilesList] = useState<TreeNode[]>([]);
-
-    useEffect(() => {
-        console.log("triggered")
-        const currentChildren = fileSystemTree.getCurrentChildren();
-        setFilesList([...currentChildren]);
-    }, []);
 
     return (
         <div>
             <div className="text-xl text-gray-400">
-                {filesList.map((file, index) => (
+                {objects.map((file, index) => (
                     <div key={index}>{fileThemes[file.type]} {file.name}</div>
                 ))}
             </div>
